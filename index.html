@@ -3,183 +3,304 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#080d1b">
-<title>BlinkGrid - Brain Challenge</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08091a">
+<title>BlinkGrid | Brain Challenge</title>
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;background:#080d1b;color:#fff;
- font-family:Arial,sans-serif;min-height:100vh;
- display:flex;justify-content:center;padding:20px 14px;
-}
-.app{width:100%;max-width:460px;text-align:center}
-.logo{font-size:32px;font-weight:900;color:#54e6ff;margin-top:12px}
-.tag{color:#9aa9c6;margin:8px 0 22px}
-.stats{display:flex;gap:10px;margin-bottom:20px}
-.stat{background:#141e34;padding:13px;border-radius:13px;flex:1}
-.stat small{color:#9aa9c6;display:block;margin-bottom:6px}
-.stat strong{font-size:23px;color:#54e6ff}
-.panel{background:#111a2d;border:1px solid #243451;
- border-radius:20px;padding:20px}
-h2{margin:5px 0 10px}
-#message{color:#b8c7e4;min-height:42px;line-height:1.5}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);
- gap:10px;margin:22px auto;max-width:330px}
-.tile{aspect-ratio:1;background:#202e49;border:2px solid #344565;
- border-radius:13px;cursor:pointer;transition:.12s}
+body{margin:0;background:#08091a;color:#fff;font-family:Arial,sans-serif}
+button{cursor:pointer;font:inherit}
+.app{max-width:1050px;margin:auto;padding:22px 16px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.logo{font-size:29px;font-weight:900;letter-spacing:-1px}
+.logo span{color:#51dfff}
+.profile{background:#171832;padding:10px 14px;border-radius:30px;color:#c9c7ff}
+.hero{background:linear-gradient(120deg,#17113d,#10234b,#17113d);border:1px solid #4436a2;border-radius:23px;padding:25px;margin-bottom:20px}
+.eyebrow{color:#5be3ff;font-size:12px;letter-spacing:2px;font-weight:bold}
+h1{font-size:35px;margin:10px 0}
+.hero p{color:#c0c4e2;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.stat,.card{background:#14162c;border:1px solid #292d52;border-radius:17px;padding:17px}
+.stat small{color:#999fca;display:block;margin-bottom:8px}
+.stat strong{font-size:25px;color:#65ddff}
+.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.card h2{font-size:20px;margin:0 0 10px}
+.muted{color:#a8adcf;font-size:14px;line-height:1.6}
+.game{text-align:center}
+.game-message{min-height:44px;color:#c5c7e5;line-height:1.5;margin:15px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:340px;margin:20px auto}
+.tile{aspect-ratio:1;border:1px solid #39416b;background:linear-gradient(145deg,#242849,#15182f);border-radius:14px;transition:.15s}
+.tile.lit{background:linear-gradient(145deg,#55eaff,#5866ff);box-shadow:0 0 22px #4a9dff;border-color:#fff}
 .tile:active{transform:scale(.94)}
-.tile.lit{background:#51e7ff;border-color:#fff;
- box-shadow:0 0 24px #36dfff}
-button{border:0;border-radius:12px;padding:14px 20px;
- font-size:16px;font-weight:bold;cursor:pointer}
-.primary{background:#51e7ff;color:#06101c;width:100%}
-.secondary{background:#243451;color:white;margin-top:12px}
-.footer{font-size:12px;color:#8492ac;margin-top:22px}
+.btn{border:0;border-radius:12px;padding:13px 17px;font-weight:bold}
+.primary{background:linear-gradient(100deg,#42e5ff,#6480ff);color:#071021;width:100%}
+.secondary{background:#28234e;color:white;border:1px solid #5148a0}
+.gold{background:linear-gradient(100deg,#ffd45a,#ff9f38);color:#241400;width:100%}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modes{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+.mode{background:#242744;color:#c5c8e8;border:1px solid #3a4167;padding:9px 13px;border-radius:20px}
+.mode.active{background:#35316d;color:#fff;border-color:#6d66ff}
+.feature{padding:15px 0;border-bottom:1px solid #292d4c}
+.feature:last-child{border:0}
+.feature b{display:block;margin-bottom:5px}
+.streak{color:#ffbd5d;font-weight:bold}
+.challenge{background:linear-gradient(120deg,#25204c,#172e50);border-color:#5145a5}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#272b53;color:#77e5ff;font-size:11px}
+footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
+#overlay{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:5}
+.modal{background:#191a36;border:1px solid #5146a5;border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center}
+@media(max-width:700px){.layout{grid-template-columns:1fr}.hero{padding:20px}h1{font-size:29px}}
 </style>
 </head>
 <body>
-<main class="app">
- <div class="logo">⚡ BlinkGrid</div>
- <div class="tag">One grid. One memory. Beat your best.</div>
+<div class="app">
+<header>
+ <div class="logo">⚡ Blink<span>Grid</span></div>
+ <div class="profile">🧠 Brain Trainer</div>
+</header>
 
- <section class="stats">
-  <div class="stat"><small>LEVEL</small><strong id="level">1</strong></div>
-  <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
-  <div class="stat"><small>BEST</small><strong id="best">0</strong></div>
- </section>
+<section class="hero">
+ <div class="eyebrow">THINK • REMEMBER • IMPROVE</div>
+ <h1>Challenge Your Mind.</h1>
+ <p>Train your memory, beat your records and take on a new challenge every day.</p>
+ <span class="tag">FREE TO PLAY</span>
+</section>
 
- <section class="panel">
-  <h2>Memory Challenge</h2>
-  <p id="message">Press START to begin your challenge.</p>
-  <div class="grid" id="grid"></div>
-  <button class="primary" id="start">START GAME</button>
-  <button class="secondary" id="restart">RESTART</button>
- </section>
+<section class="stats">
+ <div class="stat"><small>LEVEL</small><strong id="level">1</strong></div>
+ <div class="stat"><small>YOUR SCORE</small><strong id="score">0</strong></div>
+ <div class="stat"><small>PERSONAL BEST</small><strong id="best">0</strong></div>
+</section>
 
- <div class="footer">
-  Train your brain. Beat your record. Challenge yourself.
-  <br>More game modes coming soon.
+<div class="layout">
+<section class="card game">
+ <span class="eyebrow" id="gameType">CLASSIC MODE</span>
+ <h2 id="gameTitle">Memory Challenge</h2>
+ <div class="modes">
+  <button class="mode active" data-mode="easy">Easy</button>
+  <button class="mode" data-mode="medium">Medium</button>
+  <button class="mode" data-mode="hard">Hard</button>
  </div>
-</main>
+ <p class="game-message" id="message">Watch the glowing squares. Then repeat the pattern.</p>
+ <div class="grid" id="grid"></div>
+ <button class="btn primary" id="start">START CHALLENGE</button>
+ <div class="actions" style="margin-top:10px">
+  <button class="btn secondary" id="share">SHARE SCORE</button>
+  <button class="btn secondary" id="restart">RESTART</button>
+ </div>
+</section>
+
+<aside>
+ <section class="card challenge">
+  <span class="eyebrow">DAILY GLOBAL CHALLENGE</span>
+  <h2>🌟 Same pattern for everyone</h2>
+  <p class="muted">Take on today's special memory challenge and try to beat your personal record.</p>
+  <p class="streak">🔥 <span id="streak">0</span> day streak</p>
+  <button class="btn gold" id="daily">PLAY DAILY CHALLENGE</button>
+  <p class="muted" id="dailyStatus">Today's challenge is waiting for you.</p>
+ </section>
+
+ <section class="card" style="margin-top:16px">
+  <h2>🏆 Your achievements</h2>
+  <div class="feature"><b>🎯 Personal Best</b><span class="muted">Beat your highest score.</span></div>
+  <div class="feature"><b>🔥 Daily Streak</b><span class="muted">Return each day to build a streak.</span></div>
+  <div class="feature"><b>🧠 Brain Training</b><span class="muted">Improve your memory level by level.</span></div>
+ </section>
+
+ <section class="card" style="margin-top:16px">
+  <h2>👑 BlinkGrid Premium</h2>
+  <p class="muted">More ways to train your brain.</p>
+  <div class="feature">✓ Special game themes</div>
+  <div class="feature">✓ Advanced personal statistics</div>
+  <div class="feature">✓ Extra practice modes</div>
+  <div class="feature">✓ Ad-free experience</div>
+  <button class="btn secondary" style="width:100%" id="premium">EXPLORE PREMIUM</button>
+  <p class="muted" style="font-size:11px">Premium coming soon. No payment is currently collected.</p>
+ </section>
+</aside>
+</div>
+<footer>BlinkGrid © 2026 · Play fairly · Improve every day</footer>
+</div>
+
+<div id="overlay">
+ <div class="modal">
+  <h2 id="modalTitle">Challenge complete!</h2>
+  <p class="muted" id="modalText"></p>
+  <button class="btn primary" id="closeModal">CONTINUE</button>
+ </div>
+</div>
 
 <script>
-const grid=document.getElementById("grid");
-const message=document.getElementById("message");
-const startBtn=document.getElementById("start");
-const levelText=document.getElementById("level");
-const scoreText=document.getElementById("score");
-const bestText=document.getElementById("best");
-
-let level=1,score=0,best=Number(localStorage.getItem("blinkBest")||0);
-let sequence=[],position=0,playing=false,showing=false;
+const $=id=>document.getElementById(id);
+let level=1,score=0,best=Number(localStorage.bgBest||0);
+let mode="easy",daily=false,sequence=[],position=0;
+let playing=false,showing=false,roundToken=0;
 let size=3;
 
-bestText.textContent=best;
-
+function dateKey(){
+ return new Date().toLocaleDateString("en-CA");
+}
+function getStreak(){
+ return Number(localStorage.bgStreak||0);
+}
+function update(){
+ $("level").textContent=level;
+ $("score").textContent=score;
+ $("best").textContent=best;
+ $("streak").textContent=getStreak();
+}
 function createGrid(){
- size=level>=5?4:3;
- grid.style.gridTemplateColumns=`repeat(${size},1fr)`;
- grid.innerHTML="";
+ size=mode==="easy"?3:mode==="medium"?4:5;
+ $("grid").style.gridTemplateColumns=`repeat(${size},1fr)`;
+ $("grid").innerHTML="";
  for(let i=0;i<size*size;i++){
   const tile=document.createElement("button");
   tile.className="tile";
-  tile.setAttribute("aria-label","Grid tile "+(i+1));
-  tile.onclick=()=>chooseTile(i,tile);
-  grid.appendChild(tile);
+  tile.setAttribute("aria-label","Square "+(i+1));
+  tile.onclick=()=>choose(i,tile);
+  $("grid").appendChild(tile);
  }
 }
-
-function wait(ms){
- return new Promise(resolve=>setTimeout(resolve,ms));
+function seeded(seed){
+ let x=seed>>>0;
+ return function(){
+  x=(x+0x6D2B79F5)|0;
+  let t=Math.imul(x^(x>>>15),1|x);
+  t=(t+Math.imul(t^(t>>>7),61|t))^t;
+  return ((t^(t>>>14))>>>0)/4294967296;
+ };
 }
-
-async function flash(index){
- const tile=grid.children[index];
+function dailyPattern(){
+ const key=dateKey().replaceAll("-","");
+ let seed=0;
+ for(const c of key)seed=(seed*31+c.charCodeAt(0))>>>0;
+ const rand=seeded(seed+level*7919);
+ return Array.from({length:level+2},()=>Math.floor(rand()*size*size));
+}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function flash(index,token){
+ if(token!==roundToken)return;
+ const tile=$("grid").children[index];
+ if(!tile)return;
  tile.classList.add("lit");
- await wait(450);
+ await wait(420);
  tile.classList.remove("lit");
  await wait(180);
 }
-
-async function showSequence(){
- showing=true;
- playing=false;
- message.textContent="Watch carefully! Remember the glowing squares.";
- for(const index of sequence){
-  await flash(index);
+async function showPattern(){
+ const token=++roundToken;
+ showing=true;playing=false;
+ $("message").textContent="Watch carefully. Remember the glowing squares!";
+ for(const i of sequence){
+  await flash(i,token);
+  if(token!==roundToken)return;
  }
- showing=false;
- playing=true;
- message.textContent="Your turn! Repeat the sequence.";
+ showing=false;playing=true;
+ $("message").textContent="Your turn! Repeat the pattern.";
 }
-
-function nextRound(){
+function newRound(){
  createGrid();
- sequence=[];
  position=0;
- const length=level+2;
- for(let i=0;i<length;i++){
-  sequence.push(Math.floor(Math.random()*size*size));
+ sequence=daily?dailyPattern():
+  Array.from({length:level+2},()=>Math.floor(Math.random()*size*size));
+ showPattern();
+}
+function startGame(isDaily=false){
+ roundToken++;
+ daily=isDaily;
+ level=1;score=0;position=0;
+ $("gameType").textContent=daily?"DAILY CHALLENGE":"CLASSIC MODE";
+ $("gameTitle").textContent=daily?"Today's Memory Challenge":"Memory Challenge";
+ update();
+ $("start").textContent="GAME IN PROGRESS";
+ newRound();
+}
+function finish(){
+ playing=false;
+ showing=false;
+ $("start").textContent="PLAY AGAIN";
+ if(score>best){
+  best=score;
+  localStorage.bgBest=best;
  }
- showSequence();
+ if(daily){
+  const today=dateKey();
+  if(localStorage.bgDaily!==today){
+   const yesterday=new Date(Date.now()-86400000).toLocaleDateString("en-CA");
+   let streak=getStreak();
+   streak=localStorage.bgDaily===yesterday?streak+1:1;
+   localStorage.bgStreak=streak;
+   localStorage.bgDaily=today;
+   $("modalTitle").textContent="Daily challenge completed!";
+   $("modalText").textContent="You scored "+score+" points. Your daily streak is now "+streak+" days!";
+  }else{
+   $("modalTitle").textContent="Practice complete!";
+   $("modalText").textContent="Your score: "+score+". You have already recorded today's streak.";
+  }
+ }else{
+  $("modalTitle").textContent="Game over!";
+  $("modalText").textContent="You scored "+score+" points. Try again to beat your personal best.";
+ }
+ update();
+ $("dailyStatus").textContent=localStorage.bgDaily===dateKey()?"Today's challenge completed!":"Today's challenge is waiting for you.";
+ $("overlay").style.display="flex";
 }
-
-function updateStats(){
- levelText.textContent=level;
- scoreText.textContent=score;
- bestText.textContent=best;
-}
-
-function chooseTile(index,tile){
+function choose(index,tile){
  if(!playing||showing)return;
-
  if(index===sequence[position]){
   tile.classList.add("lit");
   setTimeout(()=>tile.classList.remove("lit"),180);
   position++;
-
   if(position===sequence.length){
    playing=false;
    score+=level*10;
    level++;
-   if(score>best){
-    best=score;
-    localStorage.setItem("blinkBest",best);
-   }
-   updateStats();
-   message.textContent="Excellent! Get ready for the next level.";
-   setTimeout(nextRound,1000);
+   update();
+   $("message").textContent="Excellent! Preparing your next level...";
+   setTimeout(()=>{if(!playing&&!showing)newRound()},850);
   }
  }else{
-  playing=false;
-  message.textContent="Not quite! Game over. Your score: "+score;
-  startBtn.textContent="PLAY AGAIN";
+  finish();
  }
 }
-
-function startGame(){
- level=1;
- score=0;
- position=0;
- updateStats();
- startBtn.textContent="GAME IN PROGRESS";
- nextRound();
-}
-
-startBtn.onclick=()=>{
- if(!playing&&!showing)startGame();
+document.querySelectorAll(".mode").forEach(btn=>{
+ btn.onclick=()=>{
+  if(playing||showing)return;
+  mode=btn.dataset.mode;
+  document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b===btn));
+  daily=false;
+  createGrid();
+  $("gameType").textContent="CLASSIC MODE";
+  $("gameTitle").textContent=mode.toUpperCase()+" MEMORY CHALLENGE";
+  $("message").textContent="Difficulty selected. Press Start to play.";
+ };
+});
+$("start").onclick=()=>{if(!playing&&!showing)startGame(false)};
+$("daily").onclick=()=>{
+ mode="easy";
+ document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode==="easy"));
+ startGame(true);
 };
-
-document.getElementById("restart").onclick=()=>{
- playing=false;
- showing=false;
- startGame();
+$("restart").onclick=()=>startGame(daily);
+$("closeModal").onclick=()=>{$("overlay").style.display="none"};
+$("premium").onclick=()=>{
+ $("modalTitle").textContent="BlinkGrid Premium";
+ $("modalText").textContent="Premium is being developed. The core game will remain free. No payment is available yet.";
+ $("overlay").style.display="flex";
 };
-
+$("share").onclick=async()=>{
+ const message="I scored "+score+" points on BlinkGrid! Can you beat my score? "+location.href;
+ try{
+  if(navigator.share)await navigator.share({title:"BlinkGrid Challenge",text:message});
+  else{
+   await navigator.clipboard.writeText(message);
+   $("message").textContent="Score copied! Share it with a friend.";
+  }
+ }catch(e){}
+};
 createGrid();
-updateStats();
+update();
+$("dailyStatus").textContent=localStorage.bgDaily===dateKey()?"Today's challenge completed!":"Today's challenge is waiting for you.";
 </script>
 </body>
-  </html>
-  
+</html>
