@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1b">
+<title>BlinkGrid - Brain Challenge</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080d1b;color:#fff;
+ font-family:Arial,sans-serif;min-height:100vh;
+ display:flex;justify-content:center;padding:20px 14px;
+}
+.app{width:100%;max-width:460px;text-align:center}
+.logo{font-size:32px;font-weight:900;color:#54e6ff;margin-top:12px}
+.tag{color:#9aa9c6;margin:8px 0 22px}
+.stats{display:flex;gap:10px;margin-bottom:20px}
+.stat{background:#141e34;padding:13px;border-radius:13px;flex:1}
+.stat small{color:#9aa9c6;display:block;margin-bottom:6px}
+.stat strong{font-size:23px;color:#54e6ff}
+.panel{background:#111a2d;border:1px solid #243451;
+ border-radius:20px;padding:20px}
+h2{margin:5px 0 10px}
+#message{color:#b8c7e4;min-height:42px;line-height:1.5}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);
+ gap:10px;margin:22px auto;max-width:330px}
+.tile{aspect-ratio:1;background:#202e49;border:2px solid #344565;
+ border-radius:13px;cursor:pointer;transition:.12s}
+.tile:active{transform:scale(.94)}
+.tile.lit{background:#51e7ff;border-color:#fff;
+ box-shadow:0 0 24px #36dfff}
+button{border:0;border-radius:12px;padding:14px 20px;
+ font-size:16px;font-weight:bold;cursor:pointer}
+.primary{background:#51e7ff;color:#06101c;width:100%}
+.secondary{background:#243451;color:white;margin-top:12px}
+.footer{font-size:12px;color:#8492ac;margin-top:22px}
+</style>
+</head>
+<body>
+<main class="app">
+ <div class="logo">⚡ BlinkGrid</div>
+ <div class="tag">One grid. One memory. Beat your best.</div>
+
+ <section class="stats">
+  <div class="stat"><small>LEVEL</small><strong id="level">1</strong></div>
+  <div class="stat"><small>SCORE</small><strong id="score">0</strong></div>
+  <div class="stat"><small>BEST</small><strong id="best">0</strong></div>
+ </section>
+
+ <section class="panel">
+  <h2>Memory Challenge</h2>
+  <p id="message">Press START to begin your challenge.</p>
+  <div class="grid" id="grid"></div>
+  <button class="primary" id="start">START GAME</button>
+  <button class="secondary" id="restart">RESTART</button>
+ </section>
+
+ <div class="footer">
+  Train your brain. Beat your record. Challenge yourself.
+  <br>More game modes coming soon.
+ </div>
+</main>
+
+<script>
+const grid=document.getElementById("grid");
+const message=document.getElementById("message");
+const startBtn=document.getElementById("start");
+const levelText=document.getElementById("level");
+const scoreText=document.getElementById("score");
+const bestText=document.getElementById("best");
+
+let level=1,score=0,best=Number(localStorage.getItem("blinkBest")||0);
+let sequence=[],position=0,playing=false,showing=false;
+let size=3;
+
+bestText.textContent=best;
+
+function createGrid(){
+ size=level>=5?4:3;
+ grid.style.gridTemplateColumns=`repeat(${size},1fr)`;
+ grid.innerHTML="";
+ for(let i=0;i<size*size;i++){
+  const tile=document.createElement("button");
+  tile.className="tile";
+  tile.setAttribute("aria-label","Grid tile "+(i+1));
+  tile.onclick=()=>chooseTile(i,tile);
+  grid.appendChild(tile);
+ }
+}
+
+function wait(ms){
+ return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+async function flash(index){
+ const tile=grid.children[index];
+ tile.classList.add("lit");
+ await wait(450);
+ tile.classList.remove("lit");
+ await wait(180);
+}
+
+async function showSequence(){
+ showing=true;
+ playing=false;
+ message.textContent="Watch carefully! Remember the glowing squares.";
+ for(const index of sequence){
+  await flash(index);
+ }
+ showing=false;
+ playing=true;
+ message.textContent="Your turn! Repeat the sequence.";
+}
+
+function nextRound(){
+ createGrid();
+ sequence=[];
+ position=0;
+ const length=level+2;
+ for(let i=0;i<length;i++){
+  sequence.push(Math.floor(Math.random()*size*size));
+ }
+ showSequence();
+}
+
+function updateStats(){
+ levelText.textContent=level;
+ scoreText.textContent=score;
+ bestText.textContent=best;
+}
+
+function chooseTile(index,tile){
+ if(!playing||showing)return;
+
+ if(index===sequence[position]){
+  tile.classList.add("lit");
+  setTimeout(()=>tile.classList.remove("lit"),180);
+  position++;
+
+  if(position===sequence.length){
+   playing=false;
+   score+=level*10;
+   level++;
+   if(score>best){
+    best=score;
+    localStorage.setItem("blinkBest",best);
+   }
+   updateStats();
+   message.textContent="Excellent! Get ready for the next level.";
+   setTimeout(nextRound,1000);
+  }
+ }else{
+  playing=false;
+  message.textContent="Not quite! Game over. Your score: "+score;
+  startBtn.textContent="PLAY AGAIN";
+ }
+}
+
+function startGame(){
+ level=1;
+ score=0;
+ position=0;
+ updateStats();
+ startBtn.textContent="GAME IN PROGRESS";
+ nextRound();
+}
+
+startBtn.onclick=()=>{
+ if(!playing&&!showing)startGame();
+};
+
+document.getElementById("restart").onclick=()=>{
+ playing=false;
+ showing=false;
+ startGame();
+};
+
+createGrid();
+updateStats();
+</script>
+</body>
+  </html>
+  
