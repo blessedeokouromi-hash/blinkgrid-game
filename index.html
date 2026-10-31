@@ -3,34 +3,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#08091a">
-<title>BlinkGrid | Brain Challenge</title>
+<meta name="description" content="BlinkGrid is a free worldwide brain training and memory challenge game.">
+<title>BlinkGrid - Brain Challenge</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#08091a;color:#fff;font-family:Arial,sans-serif}
+body{margin:0;background:#08091a;color:white;font-family:Arial,sans-serif}
 button{cursor:pointer;font:inherit}
 .app{max-width:1050px;margin:auto;padding:22px 16px}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.logo{font-size:29px;font-weight:900;letter-spacing:-1px}
+.logo{font-size:29px;font-weight:900}
 .logo span{color:#51dfff}
 .profile{background:#171832;padding:10px 14px;border-radius:30px;color:#c9c7ff}
 .hero{background:linear-gradient(120deg,#17113d,#10234b,#17113d);border:1px solid #4436a2;border-radius:23px;padding:25px;margin-bottom:20px}
 .eyebrow{color:#5be3ff;font-size:12px;letter-spacing:2px;font-weight:bold}
 h1{font-size:35px;margin:10px 0}
-.hero p{color:#c0c4e2;line-height:1.6}
+.hero p,.muted{color:#c0c4e2;line-height:1.6}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
 .stat,.card{background:#14162c;border:1px solid #292d52;border-radius:17px;padding:17px}
 .stat small{color:#999fca;display:block;margin-bottom:8px}
 .stat strong{font-size:25px;color:#65ddff}
 .layout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-.card h2{font-size:20px;margin:0 0 10px}
-.muted{color:#a8adcf;font-size:14px;line-height:1.6}
 .game{text-align:center}
 .game-message{min-height:44px;color:#c5c7e5;line-height:1.5;margin:15px 0}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:340px;margin:20px auto}
 .tile{aspect-ratio:1;border:1px solid #39416b;background:linear-gradient(145deg,#242849,#15182f);border-radius:14px;transition:.15s}
-.tile.lit{background:linear-gradient(145deg,#55eaff,#5866ff);box-shadow:0 0 22px #4a9dff;border-color:#fff}
+.tile.lit{background:linear-gradient(145deg,#55eaff,#5866ff);box-shadow:0 0 22px #4a9dff;border-color:white}
 .tile:active{transform:scale(.94)}
 .btn{border:0;border-radius:12px;padding:13px 17px;font-weight:bold}
 .primary{background:linear-gradient(100deg,#42e5ff,#6480ff);color:#071021;width:100%}
@@ -39,10 +41,9 @@ h1{font-size:35px;margin:10px 0}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .modes{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
 .mode{background:#242744;color:#c5c8e8;border:1px solid #3a4167;padding:9px 13px;border-radius:20px}
-.mode.active{background:#35316d;color:#fff;border-color:#6d66ff}
+.mode.active{background:#35316d;color:white;border-color:#6d66ff}
 .feature{padding:15px 0;border-bottom:1px solid #292d4c}
 .feature:last-child{border:0}
-.feature b{display:block;margin-bottom:5px}
 .streak{color:#ffbd5d;font-weight:bold}
 .challenge{background:linear-gradient(120deg,#25204c,#172e50);border-color:#5145a5}
 .tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#272b53;color:#77e5ff;font-size:11px}
@@ -52,6 +53,7 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 @media(max-width:700px){.layout{grid-template-columns:1fr}.hero{padding:20px}h1{font-size:29px}}
 </style>
 </head>
+
 <body>
 <div class="app">
 <header>
@@ -76,13 +78,16 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 <section class="card game">
  <span class="eyebrow" id="gameType">CLASSIC MODE</span>
  <h2 id="gameTitle">Memory Challenge</h2>
+
  <div class="modes">
   <button class="mode active" data-mode="easy">Easy</button>
   <button class="mode" data-mode="medium">Medium</button>
   <button class="mode" data-mode="hard">Hard</button>
  </div>
+
  <p class="game-message" id="message">Watch the glowing squares. Then repeat the pattern.</p>
  <div class="grid" id="grid"></div>
+
  <button class="btn primary" id="start">START CHALLENGE</button>
  <div class="actions" style="margin-top:10px">
   <button class="btn secondary" id="share">SHARE SCORE</button>
@@ -92,9 +97,9 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 
 <aside>
  <section class="card challenge">
-  <span class="eyebrow">DAILY GLOBAL CHALLENGE</span>
+  <span class="eyebrow">DAILY CHALLENGE</span>
   <h2>🌟 Same pattern for everyone</h2>
-  <p class="muted">Take on today's special memory challenge and try to beat your personal record.</p>
+  <p class="muted">Take on today's special memory challenge and beat your personal record.</p>
   <p class="streak">🔥 <span id="streak">0</span> day streak</p>
   <button class="btn gold" id="daily">PLAY DAILY CHALLENGE</button>
   <p class="muted" id="dailyStatus">Today's challenge is waiting for you.</p>
@@ -103,7 +108,7 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
  <section class="card" style="margin-top:16px">
   <h2>🏆 Your achievements</h2>
   <div class="feature"><b>🎯 Personal Best</b><span class="muted">Beat your highest score.</span></div>
-  <div class="feature"><b>🔥 Daily Streak</b><span class="muted">Return each day to build a streak.</span></div>
+  <div class="feature"><b>🔥 Daily Streak</b><span class="muted">Return each day.</span></div>
   <div class="feature"><b>🧠 Brain Training</b><span class="muted">Improve your memory level by level.</span></div>
  </section>
 
@@ -111,7 +116,7 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
   <h2>👑 BlinkGrid Premium</h2>
   <p class="muted">More ways to train your brain.</p>
   <div class="feature">✓ Special game themes</div>
-  <div class="feature">✓ Advanced personal statistics</div>
+  <div class="feature">✓ Advanced statistics</div>
   <div class="feature">✓ Extra practice modes</div>
   <div class="feature">✓ Ad-free experience</div>
   <button class="btn secondary" style="width:100%" id="premium">EXPLORE PREMIUM</button>
@@ -119,6 +124,7 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
  </section>
 </aside>
 </div>
+
 <footer>BlinkGrid © 2026 · Play fairly · Improve every day</footer>
 </div>
 
@@ -134,8 +140,7 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 const $=id=>document.getElementById(id);
 let level=1,score=0,best=Number(localStorage.bgBest||0);
 let mode="easy",daily=false,sequence=[],position=0;
-let playing=false,showing=false,roundToken=0;
-let size=3;
+let playing=false,showing=false,roundToken=0,size=3;
 
 function dateKey(){
  return new Date().toLocaleDateString("en-CA");
@@ -161,6 +166,8 @@ function createGrid(){
   $("grid").appendChild(tile);
  }
 }
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+
 function seeded(seed){
  let x=seed>>>0;
  return function(){
@@ -177,7 +184,6 @@ function dailyPattern(){
  const rand=seeded(seed+level*7919);
  return Array.from({length:level+2},()=>Math.floor(rand()*size*size));
 }
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function flash(index,token){
  if(token!==roundToken)return;
  const tile=$("grid").children[index];
@@ -189,13 +195,15 @@ async function flash(index,token){
 }
 async function showPattern(){
  const token=++roundToken;
- showing=true;playing=false;
+ showing=true;
+ playing=false;
  $("message").textContent="Watch carefully. Remember the glowing squares!";
  for(const i of sequence){
   await flash(i,token);
   if(token!==roundToken)return;
  }
- showing=false;playing=true;
+ showing=false;
+ playing=true;
  $("message").textContent="Your turn! Repeat the pattern.";
 }
 function newRound(){
@@ -208,11 +216,13 @@ function newRound(){
 function startGame(isDaily=false){
  roundToken++;
  daily=isDaily;
- level=1;score=0;position=0;
+ level=1;
+ score=0;
+ position=0;
  $("gameType").textContent=daily?"DAILY CHALLENGE":"CLASSIC MODE";
  $("gameTitle").textContent=daily?"Today's Memory Challenge":"Memory Challenge";
- update();
  $("start").textContent="GAME IN PROGRESS";
+ update();
  newRound();
 }
 function finish(){
@@ -235,7 +245,7 @@ function finish(){
    $("modalText").textContent="You scored "+score+" points. Your daily streak is now "+streak+" days!";
   }else{
    $("modalTitle").textContent="Practice complete!";
-   $("modalText").textContent="Your score: "+score+". You have already recorded today's streak.";
+   $("modalText").textContent="Your score: "+score+". Today's streak has already been recorded.";
   }
  }else{
   $("modalTitle").textContent="Game over!";
@@ -291,8 +301,9 @@ $("premium").onclick=()=>{
 $("share").onclick=async()=>{
  const message="I scored "+score+" points on BlinkGrid! Can you beat my score? "+location.href;
  try{
-  if(navigator.share)await navigator.share({title:"BlinkGrid Challenge",text:message});
-  else{
+  if(navigator.share){
+   await navigator.share({title:"BlinkGrid Challenge",text:message});
+  }else{
    await navigator.clipboard.writeText(message);
    $("message").textContent="Score copied! Share it with a friend.";
   }
@@ -301,6 +312,15 @@ $("share").onclick=async()=>{
 createGrid();
 update();
 $("dailyStatus").textContent=localStorage.bgDaily===dateKey()?"Today's challenge completed!":"Today's challenge is waiting for you.";
+</script>
+
+<script>
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js")
+   .catch(error=>console.log("Offline support unavailable:",error));
+ });
+}
 </script>
 </body>
 </html>
