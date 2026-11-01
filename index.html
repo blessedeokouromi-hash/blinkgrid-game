@@ -9,7 +9,6 @@
 <title>BlinkGrid - Brain Challenge</title>
 <link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#08091a;color:white;font-family:Arial,sans-serif}
@@ -47,13 +46,14 @@ h1{font-size:35px;margin:10px 0}
 .streak{color:#ffbd5d;font-weight:bold}
 .challenge{background:linear-gradient(120deg,#25204c,#172e50);border-color:#5145a5}
 .tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#272b53;color:#77e5ff;font-size:11px}
-footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
+footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0;line-height:1.8}
+footer a{color:#59dcff;text-decoration:none}
+footer a:hover{text-decoration:underline}
 #overlay{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:5}
 .modal{background:#191a36;border:1px solid #5146a5;border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center}
 @media(max-width:700px){.layout{grid-template-columns:1fr}.hero{padding:20px}h1{font-size:29px}}
 </style>
 </head>
-
 <body>
 <div class="app">
 <header>
@@ -78,7 +78,6 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 <section class="card game">
  <span class="eyebrow" id="gameType">CLASSIC MODE</span>
  <h2 id="gameTitle">Memory Challenge</h2>
-
  <div class="modes">
   <button class="mode active" data-mode="easy">Easy</button>
   <button class="mode" data-mode="medium">Medium</button>
@@ -87,7 +86,6 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 
  <p class="game-message" id="message">Watch the glowing squares. Then repeat the pattern.</p>
  <div class="grid" id="grid"></div>
-
  <button class="btn primary" id="start">START CHALLENGE</button>
  <div class="actions" style="margin-top:10px">
   <button class="btn secondary" id="share">SHARE SCORE</button>
@@ -125,7 +123,11 @@ footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0}
 </aside>
 </div>
 
-<footer>BlinkGrid © 2026 · Play fairly · Improve every day</footer>
+<footer>
+ BlinkGrid © 2026 · Play fairly · Improve every day
+ <br>
+ <a href="./privacy.html">Privacy Policy</a>
+</footer>
 </div>
 
 <div id="overlay">
