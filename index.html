@@ -3,326 +3,387 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08091a">
-<meta name="description" content="BlinkGrid is a free worldwide brain training and memory challenge game.">
-<title>BlinkGrid - Brain Challenge</title>
+<title>BlinkGrid - Free Brain Training Game</title>
+<meta name="description" content="Challenge your memory with BlinkGrid. Play free brain games, beat your best score and take on daily memory challenges.">
+<meta property="og:title" content="BlinkGrid - Brain Challenge">
+<meta property="og:description" content="Train your memory. Beat your records. Play for free.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://blessedeokouromi-hash.github.io/blinkgrid-game/">
+<meta property="og:image" content="https://blessedeokouromi-hash.github.io/blinkgrid-game/icon-512.png">
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="icon" href="./icon-192.png" type="image/png">
+
 <style>
+:root{
+ --bg:#08091b;--panel:#11142e;--panel2:#191b3b;
+ --blue:#16dfff;--purple:#a43bff;--gold:#ffc43d;
+ --pink:#ff39b9;--green:#36ed9b;--muted:#a9afd0;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#08091a;color:white;font-family:Arial,sans-serif}
-button{cursor:pointer;font:inherit}
-.app{max-width:1050px;margin:auto;padding:22px 16px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-.logo{font-size:29px;font-weight:900}
-.logo span{color:#51dfff}
-.profile{background:#171832;padding:10px 14px;border-radius:30px;color:#c9c7ff}
-.hero{background:linear-gradient(120deg,#17113d,#10234b,#17113d);border:1px solid #4436a2;border-radius:23px;padding:25px;margin-bottom:20px}
-.eyebrow{color:#5be3ff;font-size:12px;letter-spacing:2px;font-weight:bold}
-h1{font-size:35px;margin:10px 0}
-.hero p,.muted{color:#c0c4e2;line-height:1.6}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
-.stat,.card{background:#14162c;border:1px solid #292d52;border-radius:17px;padding:17px}
-.stat small{color:#999fca;display:block;margin-bottom:8px}
-.stat strong{font-size:25px;color:#65ddff}
-.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-.game{text-align:center}
-.game-message{min-height:44px;color:#c5c7e5;line-height:1.5;margin:15px 0}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:340px;margin:20px auto}
-.tile{aspect-ratio:1;border:1px solid #39416b;background:linear-gradient(145deg,#242849,#15182f);border-radius:14px;transition:.15s}
-.tile.lit{background:linear-gradient(145deg,#55eaff,#5866ff);box-shadow:0 0 22px #4a9dff;border-color:white}
-.tile:active{transform:scale(.94)}
-.btn{border:0;border-radius:12px;padding:13px 17px;font-weight:bold}
-.primary{background:linear-gradient(100deg,#42e5ff,#6480ff);color:#071021;width:100%}
-.secondary{background:#28234e;color:white;border:1px solid #5148a0}
-.gold{background:linear-gradient(100deg,#ffd45a,#ff9f38);color:#241400;width:100%}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modes{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
-.mode{background:#242744;color:#c5c8e8;border:1px solid #3a4167;padding:9px 13px;border-radius:20px}
-.mode.active{background:#35316d;color:white;border-color:#6d66ff}
-.feature{padding:15px 0;border-bottom:1px solid #292d4c}
-.feature:last-child{border:0}
-.streak{color:#ffbd5d;font-weight:bold}
-.challenge{background:linear-gradient(120deg,#25204c,#172e50);border-color:#5145a5}
-.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#272b53;color:#77e5ff;font-size:11px}
-footer{text-align:center;color:#747a9e;font-size:12px;padding:25px 0;line-height:1.8}
-footer a{color:#59dcff;text-decoration:none}
-footer a:hover{text-decoration:underline}
-#overlay{display:none;position:fixed;inset:0;background:#000b;align-items:center;justify-content:center;padding:20px;z-index:5}
-.modal{background:#191a36;border:1px solid #5146a5;border-radius:20px;padding:25px;max-width:380px;width:100%;text-align:center}
-@media(max-width:700px){.layout{grid-template-columns:1fr}.hero{padding:20px}h1{font-size:29px}}
+body{
+ margin:0;background:radial-gradient(ellipse at top,#171044 0%,#08091b 58%);
+ color:white;font-family:Arial,Helvetica,sans-serif;min-height:100vh;
+}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid white;outline-offset:3px}
+.app{max-width:1180px;margin:auto;padding:18px 16px 100px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.brand{font-size:27px;font-weight:900;letter-spacing:-1px}
+.brand span{background:linear-gradient(90deg,#20eaff,#b54aff);background-clip:text;color:transparent}
+.brand small{display:block;font-size:10px;letter-spacing:3px;color:#aeb4d6;margin-top:3px}
+.top-actions{display:flex;gap:9px}
+.icon-btn{width:43px;height:43px;border-radius:14px;border:1px solid #45447f;background:#19183b;color:white;font-size:19px}
+.page{display:none;animation:appear .25s ease}
+.page.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.panel{
+ background:linear-gradient(145deg,#17183b,#101329);
+ border:1px solid #343366;border-radius:20px;padding:18px;
+ box-shadow:0 8px 30px #0005;
+}
+.hero{
+ background:linear-gradient(115deg,#21105a,#101e4d 65%,#35105b);
+ border:1px solid #6743be;border-radius:23px;padding:24px;
+ box-shadow:0 0 24px #763cff25;margin-bottom:16px;
+}
+.eyebrow{font-size:11px;letter-spacing:2px;font-weight:bold;color:var(--blue)}
+h1{font-size:clamp(28px,6vw,43px);margin:9px 0}
+h2{font-size:21px;margin:5px 0 12px}
+p{line-height:1.55}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.profile{
+ display:flex;align-items:center;gap:12px;margin-bottom:17px;
+ background:#0d1230a8;border:1px solid #493a8c;padding:12px;border-radius:17px;
+}
+.avatar{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;font-size:27px;background:linear-gradient(135deg,#10cfff,#913dff);border:3px solid #f2c4ff}
+.profile-name{font-weight:bold}
+.points{color:var(--gold);font-weight:bold;margin-top:5px}
+.level-pill{margin-left:auto;background:#3b1a85;padding:9px 12px;border-radius:12px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
+.stat{text-align:center;padding:14px 5px;background:#111630;border:1px solid #343b72;border-radius:15px}
+.stat small{display:block;color:var(--muted);font-size:11px}
+.stat strong{display:block;font-size:24px;margin-top:6px;color:#fff}
+.stat strong.blue{color:var(--blue)}
+.streak{margin:14px 0;background:#21133e;border:1px solid #7331a4;border-radius:16px;padding:15px}
+.streak-top{display:flex;justify-content:space-between;align-items:center;color:#ffd85b;font-weight:bold}
+.progress{height:9px;background:#272254;border-radius:20px;overflow:hidden;margin-top:12px}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,#ff8d23,#ffe45b);border-radius:20px}
+.btn{
+ border:0;border-radius:14px;padding:14px 17px;font-weight:bold;
+ transition:transform .12s,filter .12s;
+}
+.btn:active{transform:scale(.97)}
+.play-btn{width:100%;font-size:20px;color:#06152c;background:linear-gradient(100deg,#1be4ff,#327cff);box-shadow:0 0 22px #16dfff55}
+.gold-btn{background:linear-gradient(100deg,#ffe36b,#ff9c24);color:#321800;width:100%}
+.purple-btn{background:linear-gradient(100deg,#a62fff,#5424bd);color:white}
+.outline-btn{background:#191b3b;color:white;border:1px solid #47477e}
+.tiles-menu{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.menu-tile{border:1px solid #3a4c83;border-radius:16px;background:linear-gradient(145deg,#102d4c,#10132c);padding:16px 7px;text-align:center;color:white}
+.menu-tile:nth-child(2){background:linear-gradient(145deg,#42156b,#17132f);border-color:#833dba}
+.menu-tile:nth-child(3){background:linear-gradient(145deg,#4b1c3b,#20132c);border-color:#a44b7b}
+.menu-tile b{display:block;font-size:24px;margin-bottom:7px}
+.menu-tile span{font-size:12px}
+.daily-card{background:linear-gradient(135deg,#32114f,#171342);border:1px solid #843fd1}
+.daily-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.daily-icon{font-size:35px}
+.daily-target{text-align:center;font-size:32px;font-weight:900;color:#ffe36b;margin:12px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px}
+.section-head h2{margin:0}
+.link-btn{background:none;border:0;color:var(--blue);font-weight:bold}
+.feature-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #292d52}
+.feature-row:last-child{border:0}
+.feature-icon{font-size:24px;width:35px;text-align:center}
+.feature-row div:nth-child(2){flex:1}
+.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:#29245a;color:#c9b7ff;font-size:10px}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px}
+.game-main{text-align:center}
+.game-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.game-top .icon-btn{flex-shrink:0}
+.game-status{background:#25104c;border:1px solid #7533c9;border-radius:30px;padding:12px;margin:17px 0;font-weight:bold}
+.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:430px;margin:20px auto}
+.tile{
+ aspect-ratio:1;border:1px solid #42608d;border-radius:17px;
+ background:linear-gradient(145deg,#102c4d,#15172f);
+ box-shadow:inset 0 0 14px #0d7caa22;
+ transition:background .12s,box-shadow .12s,transform .12s;
+}
+.tile.lit{background:linear-gradient(145deg,#19eaff,#1766ff);border-color:#b9ffff;box-shadow:0 0 24px #00cfff, inset 0 0 12px white;transform:scale(.97)}
+.tile.correct{background:linear-gradient(145deg,#ae38ff,#5b24d9);box-shadow:0 0 22px #9d34ff}
+.tile.wrong{background:#e82e62;box-shadow:0 0 20px #ff285b}
+.game-message{min-height:48px;display:grid;place-items:center;color:#e4dfff;font-weight:bold}
+.game-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.game-actions .btn{min-width:120px}
+.mode-list{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.mode{border:1px solid #44477a;background:#1a1c3a;color:#c9cbe9;border-radius:25px;padding:9px 13px;font-size:12px}
+.mode.active{background:#5222a0;border-color:#c184ff;color:white}
+.side-stat{margin-bottom:12px}
+.side-stat strong{font-size:24px;color:var(--blue);display:block;margin-top:6px}
+.premium{background:linear-gradient(145deg,#38205d,#17152e);border:1px solid #8c51b8}
+.premium ul{padding-left:20px;color:#ddd5fa;line-height:2}
+.bottom-nav{
+ position:fixed;bottom:0;left:0;right:0;z-index:4;
+ display:flex;justify-content:space-around;gap:3px;
+ padding:10px 5px calc(10px + env(safe-area-inset-bottom));
+ background:#0d1027f5;border-top:1px solid #39366e;backdrop-filter:blur(12px)
+}
+.nav-btn{flex:1;background:none;border:0;color:#9399bf;font-size:11px;padding:5px 2px}
+.nav-btn span{display:block;font-size:21px;margin-bottom:4px}
+.nav-btn.active{color:#47e5ff}
+.modal-bg{display:none;position:fixed;inset:0;z-index:10;background:#000c;align-items:center;justify-content:center;padding:20px}
+.modal{max-width:380px;width:100%;text-align:center;background:#171735;border:1px solid #7450bd;border-radius:22px;padding:24px}
+.modal h2{font-size:25px}
+footer{text-align:center;color:#777eaa;font-size:11px;padding:24px}
+footer a{color:var(--blue);text-decoration:none}
+@media(min-width:800px){
+ .home-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+ .game-grid{gap:14px}
+}
+@media(max-width:650px){
+ .app{padding:14px 12px 100px}
+ .game-layout{grid-template-columns:1fr}
+ .game-side{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .game-side .panel{margin:0!important}
+ .game-grid{max-width:390px;gap:9px}
+ .tile{border-radius:13px}
+}
 </style>
 </head>
+
 <body>
 <div class="app">
-<header>
- <div class="logo">⚡ Blink<span>Grid</span></div>
- <div class="profile">🧠 Brain Trainer</div>
+<header class="topbar">
+ <div class="brand">🧠 Blink<span>Grid</span><small>THINK • REMEMBER • IMPROVE</small></div>
+ <div class="top-actions">
+  <button class="icon-btn" id="soundBtn" aria-label="Toggle sound">🔊</button>
+  <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
+ </div>
 </header>
 
-<section class="hero">
- <div class="eyebrow">THINK • REMEMBER • IMPROVE</div>
- <h1>Challenge Your Mind.</h1>
- <p>Train your memory, beat your records and take on a new challenge every day.</p>
- <span class="tag">FREE TO PLAY</span>
-</section>
+<!-- HOME -->
+<section class="page active" id="homePage">
+ <div class="home-layout">
+ <div>
+  <section class="hero">
+   <div class="eyebrow">YOUR DAILY BRAIN CHALLENGE</div>
+   <h1>Think faster.<br>Remember more.</h1>
+   <p class="muted">Train your memory, build your streak and challenge yourself one level at a time.</p>
+   <button class="btn play-btn" onclick="openGame()">▶ PLAY NOW</button>
+  </section>
 
-<section class="stats">
- <div class="stat"><small>LEVEL</small><strong id="level">1</strong></div>
- <div class="stat"><small>YOUR SCORE</small><strong id="score">0</strong></div>
- <div class="stat"><small>PERSONAL BEST</small><strong id="best">0</strong></div>
-</section>
+  <div class="profile">
+   <div class="avatar">🧠</div>
+   <div><div class="profile-name">Brain Explorer</div><div class="points">⭐ <span id="profilePoints">0</span> points</div></div>
+   <div class="level-pill">LEVEL <span id="profileLevel">1</span> ›</div>
+  </div>
 
-<div class="layout">
-<section class="card game">
- <span class="eyebrow" id="gameType">CLASSIC MODE</span>
- <h2 id="gameTitle">Memory Challenge</h2>
- <div class="modes">
-  <button class="mode active" data-mode="easy">Easy</button>
-  <button class="mode" data-mode="medium">Medium</button>
-  <button class="mode" data-mode="hard">Hard</button>
+  <div class="stats">
+   <div class="stat"><small>LEVEL</small><strong id="homeLevel">1</strong></div>
+   <div class="stat"><small>SCORE</small><strong class="blue" id="homeScore">0</strong></div>
+   <div class="stat"><small>BEST</small><strong id="homeBest">0</strong></div>
+  </div>
+
+  <div class="streak">
+   <div class="streak-top"><span>🔥 <span id="streakCount">0</span> Day Streak</span><span>🎁</span></div>
+   <div class="progress"><div id="streakBar"></div></div>
+   <p class="small muted">Come back daily to keep your memory-training streak alive.</p>
+  </div>
+
+  <div class="tiles-menu">
+   <button class="menu-tile" onclick="startDaily()"><b>📅</b><span>Daily<br>Challenge</span></button>
+   <button class="menu-tile" onclick="showPage('statsPage')"><b>📊</b><span>Your<br>Statistics</span></button>
+   <button class="menu-tile" onclick="showPage('rewardsPage')"><b>🏆</b><span>Achievements</span></button>
+  </div>
  </div>
 
- <p class="game-message" id="message">Watch the glowing squares. Then repeat the pattern.</p>
- <div class="grid" id="grid"></div>
- <button class="btn primary" id="start">START CHALLENGE</button>
- <div class="actions" style="margin-top:10px">
-  <button class="btn secondary" id="share">SHARE SCORE</button>
-  <button class="btn secondary" id="restart">RESTART</button>
+ <div>
+  <section class="panel daily-card">
+   <div class="daily-head"><div><span class="eyebrow">SAME CHALLENGE FOR EVERYONE</span><h2>📅 Daily Challenge</h2></div><div class="daily-icon">🏆</div></div>
+   <p class="muted small">Today's target</p>
+   <div class="daily-target">2,500 pts</div>
+   <button class="btn gold-btn" onclick="startDaily()">PLAY DAILY CHALLENGE</button>
+   <p class="small muted" id="dailyLabel">A new challenge is waiting for you.</p>
+  </section>
+
+  <section class="panel" style="margin-top:15px">
+   <div class="section-head"><h2>🌍 Global Leaderboard</h2><span class="tag">COMING SOON</span></div>
+   <p class="muted small">Online rankings will be introduced when the secure global scoring system is ready. Your personal best is saved on this device.</p>
+  </section>
+
+  <section class="panel premium" style="margin-top:15px">
+   <div class="eyebrow" style="color:#ffd95e">👑 BLINKGRID PREMIUM</div>
+   <h2>Unlock more ways to train</h2>
+   <ul><li>Exclusive visual themes</li><li>Advanced statistics</li><li>Extra practice challenges</li><li>Ad-free experience</li></ul>
+   <button class="btn gold-btn" onclick="showPremium()">EXPLORE PREMIUM</button>
+   <p class="small muted">Optional premium features are coming soon. No payment is collected now.</p>
+  </section>
+ </div>
  </div>
 </section>
 
-<aside>
- <section class="card challenge">
-  <span class="eyebrow">DAILY CHALLENGE</span>
-  <h2>🌟 Same pattern for everyone</h2>
-  <p class="muted">Take on today's special memory challenge and beat your personal record.</p>
-  <p class="streak">🔥 <span id="streak">0</span> day streak</p>
-  <button class="btn gold" id="daily">PLAY DAILY CHALLENGE</button>
-  <p class="muted" id="dailyStatus">Today's challenge is waiting for you.</p>
- </section>
+<!-- GAME -->
+<section class="page" id="gamePage">
+ <div class="game-layout">
+  <section class="panel game-main">
+   <div class="game-top">
+    <button class="icon-btn" onclick="showPage('homePage')" aria-label="Back">←</button>
+    <div><span class="eyebrow">MEMORY ARENA</span><h2 id="gameTitle">Memory Challenge</h2></div>
+    <button class="icon-btn" onclick="toggleSound()" id="gameSoundBtn">🔊</button>
+   </div>
+   <div class="mode-list">
+    <button class="mode active" data-mode="easy">EASY</button>
+    <button class="mode" data-mode="medium">MEDIUM</button>
+    <button class="mode" data-mode="hard">HARD</button>
+   </div>
+   <div class="game-status" id="gameStatus">Press Start to begin your challenge.</div>
+   <div class="game-grid" id="gameGrid"></div>
+   <div class="game-message" id="gameMessage">Watch the pattern and repeat it.</div>
+   <div class="game-actions">
+    <button class="btn play-btn" id="startBtn" onclick="startGame(false)">▶ START</button>
+    <button class="btn outline-btn" onclick="giveUp()">⚑ GIVE UP</button>
+   </div>
+  </section>
 
- <section class="card" style="margin-top:16px">
-  <h2>🏆 Your achievements</h2>
-  <div class="feature"><b>🎯 Personal Best</b><span class="muted">Beat your highest score.</span></div>
-  <div class="feature"><b>🔥 Daily Streak</b><span class="muted">Return each day.</span></div>
-  <div class="feature"><b>🧠 Brain Training</b><span class="muted">Improve your memory level by level.</span></div>
- </section>
+  <aside class="game-side">
+   <section class="panel side-stat">
+    <span class="muted small">CURRENT SCORE</span><strong id="gameScore">0</strong>
+    <hr style="border-color:#34365b">
+    <span class="muted small">LEVEL</span><strong id="gameLevel">1</strong>
+    <hr style="border-color:#34365b">
+    <span class="muted small">PERSONAL BEST</span><strong id="gameBest">0</strong>
+   </section>
+   <section class="panel">
+    <h2>🎯 How to play</h2>
+    <p class="muted small">1. Watch the glowing tiles.</p>
+    <p class="muted small">2. Remember their order.</p>
+    <p class="muted small">3. Tap the same tiles in order.</p>
+    <p class="muted small">4. Complete levels to earn points.</p>
+   </section>
+  </aside>
+ </div>
+</section>
 
- <section class="card" style="margin-top:16px">
-  <h2>👑 BlinkGrid Premium</h2>
-  <p class="muted">More ways to train your brain.</p>
-  <div class="feature">✓ Special game themes</div>
-  <div class="feature">✓ Advanced statistics</div>
-  <div class="feature">✓ Extra practice modes</div>
-  <div class="feature">✓ Ad-free experience</div>
-  <button class="btn secondary" style="width:100%" id="premium">EXPLORE PREMIUM</button>
-  <p class="muted" style="font-size:11px">Premium coming soon. No payment is currently collected.</p>
+<!-- STATS -->
+<section class="page" id="statsPage">
+ <section class="hero"><div class="eyebrow">YOUR PROGRESS</div><h1>Brain statistics</h1><p class="muted">Your progress and personal records on this device.</p></section>
+ <div class="stats">
+  <div class="stat"><small>BEST SCORE</small><strong id="statBest">0</strong></div>
+  <div class="stat"><small>LEVEL REACHED</small><strong id="statLevel">1</strong></div>
+  <div class="stat"><small>DAILY STREAK</small><strong id="statStreak">0</strong></div>
+ </div>
+ <section class="panel">
+  <h2>📈 Your training record</h2>
+  <div class="feature-row"><div class="feature-icon">⭐</div><div><b>Total points</b><div class="muted small" id="statPoints">0 points earned</div></div></div>
+  <div class="feature-row"><div class="feature-icon">🎮</div><div><b>Games completed</b><div class="muted small" id="statGames">0 completed games</div></div></div>
+  <div class="feature-row"><div class="feature-icon">📅</div><div><b>Daily challenge</b><div class="muted small" id="statDaily">Not completed today</div></div></div>
  </section>
-</aside>
-</div>
+</section>
+
+<!-- REWARDS -->
+<section class="page" id="rewardsPage">
+ <section class="hero"><div class="eyebrow">MILESTONES</div><h1>Your achievements</h1><p class="muted">Every level is another opportunity to improve.</p></section>
+ <section class="panel">
+  <div class="feature-row"><div class="feature-icon">🌱</div><div><b>First steps</b><div class="muted small">Complete your first game.</div></div><span class="tag" id="achFirst">LOCKED</span></div>
+  <div class="feature-row"><div class="feature-icon">🔥</div><div><b>Consistency</b><div class="muted small">Build a 3-day daily streak.</div></div><span class="tag" id="achStreak">LOCKED</span></div>
+  <div class="feature-row"><div class="feature-icon">🧠</div><div><b>Brain builder</b><div class="muted small">Reach level 5.</div></div><span class="tag" id="achLevel">LOCKED</span></div>
+  <div class="feature-row"><div class="feature-icon">⭐</div><div><b>High scorer</b><div class="muted small">Earn 500 points in one game.</div></div><span class="tag" id="achScore">LOCKED</span></div>
+ </section>
+ <p class="muted small">These are in-game achievements, not cash prizes.</p>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profilePage">
+ <section class="hero"><div class="eyebrow">PLAYER PROFILE</div><h1>Brain Explorer</h1><p class="muted">Your personal BlinkGrid profile is stored on this device.</p></section>
+ <section class="panel">
+  <div class="profile"><div class="avatar">🧠</div><div><b>Brain Explorer</b><div class="muted small">BlinkGrid player</div></div></div>
+  <div class="feature-row"><div>⭐</div><div>Total points</div><b id="profileTotal">0</b></div>
+  <div class="feature-row"><div>🏆</div><div>Personal best</div><b id="profileBest">0</b></div>
+  <div class="feature-row"><div>🔥</div><div>Daily streak</div><b id="profileStreak">0</b></div>
+  <button class="btn outline-btn" style="width:100%;margin-top:15px" onclick="shareScore()">↗ SHARE BLINKGRID</button>
+ </section>
+ <section class="panel" style="margin-top:15px">
+  <h2>⚙️ Settings</h2>
+  <div class="feature-row"><div>🔊</div><div>Game sounds</div><button class="btn outline-btn" onclick="toggleSound()" id="profileSound">ON</button></div>
+  <p class="muted small">You can turn sound on or off at any time.</p>
+ </section>
+</section>
 
 <footer>
- BlinkGrid © 2026 · Play fairly · Improve every day
- <br>
- <a href="./privacy.html">Privacy Policy</a>
+ BlinkGrid © 2026 · Free to play · Train your memory
+ <br><a href="./privacy.html">Privacy Policy</a>
 </footer>
 </div>
 
-<div id="overlay">
+<nav class="bottom-nav">
+ <button class="nav-btn active" data-page="homePage"><span>⌂</span>Home</button>
+ <button class="nav-btn" data-page="gamePage"><span>▦</span>Play</button>
+ <button class="nav-btn" data-page="statsPage"><span>▥</span>Stats</button>
+ <button class="nav-btn" data-page="rewardsPage"><span>🏆</span>Rewards</button>
+ <button class="nav-btn" data-page="profilePage"><span>♙</span>Profile</button>
+</nav>
+
+<div class="modal-bg" id="modal">
  <div class="modal">
+  <div style="font-size:42px" id="modalIcon">🏆</div>
   <h2 id="modalTitle">Challenge complete!</h2>
   <p class="muted" id="modalText"></p>
-  <button class="btn primary" id="closeModal">CONTINUE</button>
+  <button class="btn play-btn" onclick="closeModal()">CONTINUE</button>
  </div>
 </div>
 
 <script>
-const $=id=>document.getElementById(id);
-let level=1,score=0,best=Number(localStorage.bgBest||0);
-let mode="easy",daily=false,sequence=[],position=0;
-let playing=false,showing=false,roundToken=0,size=3;
+/* ---------- SOUND ENGINE ---------- */
+let soundOn=localStorage.bgSound!=="off";
+let audioContext=null;
 
-function dateKey(){
- return new Date().toLocaleDateString("en-CA");
-}
-function getStreak(){
- return Number(localStorage.bgStreak||0);
-}
-function update(){
- $("level").textContent=level;
- $("score").textContent=score;
- $("best").textContent=best;
- $("streak").textContent=getStreak();
-}
-function createGrid(){
- size=mode==="easy"?3:mode==="medium"?4:5;
- $("grid").style.gridTemplateColumns=`repeat(${size},1fr)`;
- $("grid").innerHTML="";
- for(let i=0;i<size*size;i++){
-  const tile=document.createElement("button");
-  tile.className="tile";
-  tile.setAttribute("aria-label","Square "+(i+1));
-  tile.onclick=()=>choose(i,tile);
-  $("grid").appendChild(tile);
+function audio(){
+ if(!audioContext){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(AC) audioContext=new AC();
  }
+ if(audioContext&&audioContext.state==="suspended")audioContext.resume();
+ return audioContext;
 }
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
 
-function seeded(seed){
- let x=seed>>>0;
- return function(){
-  x=(x+0x6D2B79F5)|0;
-  let t=Math.imul(x^(x>>>15),1|x);
-  t=(t+Math.imul(t^(t>>>7),61|t))^t;
-  return ((t^(t>>>14))>>>0)/4294967296;
- };
-}
-function dailyPattern(){
- const key=dateKey().replaceAll("-","");
- let seed=0;
- for(const c of key)seed=(seed*31+c.charCodeAt(0))>>>0;
- const rand=seeded(seed+level*7919);
- return Array.from({length:level+2},()=>Math.floor(rand()*size*size));
-}
-async function flash(index,token){
- if(token!==roundToken)return;
- const tile=$("grid").children[index];
- if(!tile)return;
- tile.classList.add("lit");
- await wait(420);
- tile.classList.remove("lit");
- await wait(180);
-}
-async function showPattern(){
- const token=++roundToken;
- showing=true;
- playing=false;
- $("message").textContent="Watch carefully. Remember the glowing squares!";
- for(const i of sequence){
-  await flash(i,token);
-  if(token!==roundToken)return;
- }
- showing=false;
- playing=true;
- $("message").textContent="Your turn! Repeat the pattern.";
-}
-function newRound(){
- createGrid();
- position=0;
- sequence=daily?dailyPattern():
-  Array.from({length:level+2},()=>Math.floor(Math.random()*size*size));
- showPattern();
-}
-function startGame(isDaily=false){
- roundToken++;
- daily=isDaily;
- level=1;
- score=0;
- position=0;
- $("gameType").textContent=daily?"DAILY CHALLENGE":"CLASSIC MODE";
- $("gameTitle").textContent=daily?"Today's Memory Challenge":"Memory Challenge";
- $("start").textContent="GAME IN PROGRESS";
- update();
- newRound();
-}
-function finish(){
- playing=false;
- showing=false;
- $("start").textContent="PLAY AGAIN";
- if(score>best){
-  best=score;
-  localStorage.bgBest=best;
- }
- if(daily){
-  const today=dateKey();
-  if(localStorage.bgDaily!==today){
-   const yesterday=new Date(Date.now()-86400000).toLocaleDateString("en-CA");
-   let streak=getStreak();
-   streak=localStorage.bgDaily===yesterday?streak+1:1;
-   localStorage.bgStreak=streak;
-   localStorage.bgDaily=today;
-   $("modalTitle").textContent="Daily challenge completed!";
-   $("modalText").textContent="You scored "+score+" points. Your daily streak is now "+streak+" days!";
-  }else{
-   $("modalTitle").textContent="Practice complete!";
-   $("modalText").textContent="Your score: "+score+". Today's streak has already been recorded.";
-  }
- }else{
-  $("modalTitle").textContent="Game over!";
-  $("modalText").textContent="You scored "+score+" points. Try again to beat your personal best.";
- }
- update();
- $("dailyStatus").textContent=localStorage.bgDaily===dateKey()?"Today's challenge completed!":"Today's challenge is waiting for you.";
- $("overlay").style.display="flex";
-}
-function choose(index,tile){
- if(!playing||showing)return;
- if(index===sequence[position]){
-  tile.classList.add("lit");
-  setTimeout(()=>tile.classList.remove("lit"),180);
-  position++;
-  if(position===sequence.length){
-   playing=false;
-   score+=level*10;
-   level++;
-   update();
-   $("message").textContent="Excellent! Preparing your next level...";
-   setTimeout(()=>{if(!playing&&!showing)newRound()},850);
-  }
- }else{
-  finish();
- }
-}
-document.querySelectorAll(".mode").forEach(btn=>{
- btn.onclick=()=>{
-  if(playing||showing)return;
-  mode=btn.dataset.mode;
-  document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b===btn));
-  daily=false;
-  createGrid();
-  $("gameType").textContent="CLASSIC MODE";
-  $("gameTitle").textContent=mode.toUpperCase()+" MEMORY CHALLENGE";
-  $("message").textContent="Difficulty selected. Press Start to play.";
- };
-});
-$("start").onclick=()=>{if(!playing&&!showing)startGame(false)};
-$("daily").onclick=()=>{
- mode="easy";
- document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode==="easy"));
- startGame(true);
-};
-$("restart").onclick=()=>startGame(daily);
-$("closeModal").onclick=()=>{$("overlay").style.display="none"};
-$("premium").onclick=()=>{
- $("modalTitle").textContent="BlinkGrid Premium";
- $("modalText").textContent="Premium is being developed. The core game will remain free. No payment is available yet.";
- $("overlay").style.display="flex";
-};
-$("share").onclick=async()=>{
- const message="I scored "+score+" points on BlinkGrid! Can you beat my score? "+location.href;
+function tone(freq=440,duration=.12,type="sine",volume=.045,delay=0){
+ if(!soundOn)return;
  try{
-  if(navigator.share){
-   await navigator.share({title:"BlinkGrid Challenge",text:message});
-  }else{
-   await navigator.clipboard.writeText(message);
-   $("message").textContent="Score copied! Share it with a friend.";
-  }
+  const ctx=audio();if(!ctx)return;
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  const start=ctx.currentTime+delay;
+  osc.type=type;osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(.0001,start);
+  gain.gain.exponentialRampToValueAtTime(volume,start+.015);
+  gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+  osc.connect(gain);gain.connect(ctx.destination);
+  osc.start(start);osc.stop(start+duration+.03);
  }catch(e){}
-};
-createGrid();
-update();
-$("dailyStatus").textContent=localStorage.bgDaily===dateKey()?"Today's challenge completed!":"Today's challenge is waiting for you.";
-</script>
-
-<script>
-if("serviceWorker" in navigator){
- window.addEventListener("load",()=>{
-  navigator.serviceWorker.register("./sw.js")
-   .catch(error=>console.log("Offline support unavailable:",error));
- });
 }
-</script>
-</body>
-</html>
+
+function playSound(kind){
+ if(!soundOn)return;
+ if(kind==="tile")tone(620,.13,"sine",.035);
+ if(kind==="tap")tone(420,.07,"triangle",.025);
+ if(kind==="correct"){tone(720,.1,"sine",.045);tone(920,.12,"sine",.035,.08)}
+ if(kind==="wrong"){tone(190,.25,"sawtooth",.04);tone(120,.3,"triangle",.035,.13)}
+ if(kind==="level"){tone(523,.13,"sine",.04);tone(659,.13,"sine",.04,.12);tone(784,.2,"sine",.05,.24)}
+ if(kind==="daily"){tone(660,.12,"sine",.04);tone(880,.18,"sine",.05,.14)}
+ if(kind==="button")tone(350,.06,"triangle",.025);
+}
+
+function toggleSound(){
+ soundOn=!soundOn;
+ localStorage.bgSound=soundOn?"on":"off";
+ updateSoundUI();
+ if(soundOn)playSound("button");
+}
+function updateSoundUI(){
+ const label=soundOn?"🔊":"🔇";
+ ["soundBtn","gameSoundBtn"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=label});
+ const p=document.getElementById("profileSound");if(p)p.textContent=soundOn?"ON":"OFF";
+}
+document.getElementById("soundBtn").onclick=toggleSound;
+document.getElementById("sett
